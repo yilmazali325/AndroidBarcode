@@ -1,0 +1,47 @@
+import { Component, OnInit } from '@angular/core';
+import { DataService } from '../data.service';
+import { environment } from 'src/environments/environment';
+
+@Component({
+  selector: 'app-checkout',
+  templateUrl: './checkout.page.html',
+  styleUrls: ['./checkout.page.scss'],
+})
+export class CheckoutPage implements OnInit {
+
+  public barcodeNumber;
+  public myDate : Date = new Date();
+  constructor(private httpService:DataService) { 
+ }
+
+  ngOnInit() {}
+  checkoutItem(){
+    console.log(this.barcodeNumber)
+    let url = "http://localhost:8080/product/checkout?id=" + this.barcodeNumber + "&businessName=" + localStorage.getItem("businessName");
+    this.httpService.put(url,"").subscribe(res=>{
+      let response = Object(res);
+      let checkoutobject = {
+        "userEmail" : localStorage.getItem("userEmail"),
+	      "productid": response.id,
+        "productBarcodeNumber": response.barcodeNumber,
+        "productName": response.name,
+        "productQuantity": response.quantity,
+        "productIsCheckedOut": response.checkedOut,
+        "checkedOutDate" : this.myDate,
+        "businessName" : localStorage.getItem("businessName")
+      }
+      let checkouturl = environment.url + "/checkout";
+      this.httpService.post(checkouturl, checkoutobject).subscribe(res=>{
+            console.log(res);
+            alert("Checkot successful!");
+      },err=>{
+          console.log(err);
+          alert("An error has been occurred!")
+      })
+      console.log(res);
+
+    },err=>{
+      console.log(err);
+    })
+  }
+}

@@ -1,0 +1,71 @@
+<ion-app>
+    <ion-menu contentId="content1" side="start">
+        <ion-header>
+          <ion-toolbar>
+              <ion-menu-toggle>
+            <ion-title>Menu</ion-title>
+              </ion-menu-toggle>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+              <ul>
+        <li *ngIf="isAdmin || isLocal">
+          <a [routerLink]="['product']">Home</a>
+        </li> 
+        <li *ngIf="isGlobal">
+            <a [routerLink]="['businessaccountlist']">Home</a>
+          </li>
+        <li *ngIf="isAdmin || isLocal">
+          <a [routerLink]="['/checkout']">CheckOut</a>
+        </li>
+  
+        <li *ngIf="isLocal">
+          <a [routerLink]="['/checkedout']">CheckedOut</a>
+        </li>
+        <li *ngIf="isAdmin">
+            <a [routerLink]="['/checkedoutbybusiness']">CheckedOut</a>
+          </li>
+  
+        <li *ngIf="isLocal">
+          <a [routerLink]="['/addproduct']">Add Product</a>
+        </li>
+        <li *ngIf="isAdmin" class="dropdown">
+          <a href="javascript:void(0)" class="dropbtn" >
+            Product Settings
+          </a>
+          <div  class="dropdown-content"> 
+            <a [routerLink]="['/addproduct']">Add Product</a>
+            <a [routerLink]="['/updateproduct']">Update Product</a>
+            <a [routerLink]="['/deleteproduct']">Delete Product</a>
+          </div>
+        </li>
+        <li *ngIf="isAdmin" class="dropdown">
+          <a href="javascript:void(0)" class="dropbtn">
+            User Settings
+          </a>
+          <div  class="dropdown-content">
+            <a [routerLink]="['/userlist']" >User List</a>
+            <a [routerLink]="['/adduser']">Add User</a>
+            <a [routerLink]="['/updateuser']">Update User</a>
+            <a [routerLink]="['/deleteuser']">Delete User</a>
+          </div>
+        </li>
+        <li *ngIf="isGlobal"  class="dropdown" >
+          <a  href="javascript:void(0)" class="dropbtn">
+            Business Account Sett ings
+          </a>
+          <div class="dropdown-content">
+            <a [routerLink]="['/businessaccountadd']" >Add Business Account</a>
+            <a [routerLink]="['/businessaccountupdate']" >Update Business Account</a>
+            <a [routerLink]="['/businessaccountdisable']" >Delete Business Account</a>
+          </div>
+        </li>
+        <li>
+            <a class="dropdown-item" (click)="logout()">Logout</a>
+        </li>
+      </ul>   
+        </ion-content>
+      </ion-menu>
+
+  <ion-router-outlet id="content1" main></ion-router-outlet>
+</ion-app>
